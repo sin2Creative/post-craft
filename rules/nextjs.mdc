@@ -1,0 +1,69 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Maintain the folder hierarchy as outlined in the project overview.
+
+Feature-specific code should be modularized within appropriate folders:
+
+UI in components/
+
+Logic/APIs in lib/ and app/api/
+
+Types in types/index.ts
+
+Utilities in utils/helpers.ts
+
+Server Actions in src/Action
+
+Use TypeScript strictly. No any unless absolutely necessary (and always comment why).
+
+Follow TailwindCSS conventions for UI. Prefer utility classes over custom CSS when possible.
+
+Use async/await over promises for clarity.
+
+Use server actions for backend logic unless a REST API makes more sense.
+
+All AI-related logic (Replicate, GPT-4o) lives in lib/ai.ts.
+
+Use typed helpers to pass/return expected structured data from AI calls.
+
+Always wrap API calls with error handling.
+
+NextAuth config should be centralized in lib/nextauth.ts.
+
+Only use secure authentication flows—OAuth preferred for production.
+
+Protect server actions and dashboard routes with authentication checks.
+
+Use reusable components where possible.
+
+Stick to the design system: consistent fonts, colors, spacing.
+
+Keep all brand asset uploads accessible via dashboard settings.
+
+Use loading states, disabled buttons, and error messages for async actions.
+
+Write clear commit messages:feat: add prompt form UIfix: patch credit deduction bugrefactor: move auth logic to lib folder
+
+Run tsc and eslint before committing.
+
+Prefer atomic commits (small, focused changes).
+
+PR titles should follow format: [Feature] Prompt Generator UI
+
+Use comments to explain complex logic or temporary workarounds.
+
+Use .env.local for local dev and Vercel’s env vars for prod.
+
+Secrets like API keys must never be committed.
+
+Leave TODO comments with your name and date:// TODO(sinthu, 2025-04-18): Replace mock API with real Replicate call
+
+Push regularly and pull often to avoid conflicts.
+
+Document shared logic in README.md or a /docs folder.
+
+always create folders within src diretry
+
