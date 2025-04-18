@@ -87,7 +87,13 @@ export default function LandingPage() {
 
             <div className="bg-[#1c2944] rounded-xl p-8 transition-all hover:shadow-lg hover:shadow-purple-500/10">
               <div className="flex items-center justify-center h-12 w-12 rounded-md bg-gradient-to-r from-purple-600 to-blue-500 text-white mb-5">
-                <Image className="h-6 w-6" />
+                <Image
+                  src="/features-image.jpg"
+                  width={500}
+                  height={300}
+                  alt="Features section illustration"
+                  className="rounded-lg shadow-lg"
+                />
               </div>
               <h3 className="text-xl font-bold text-white mb-3">
                 AI Image Creation

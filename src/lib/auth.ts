@@ -4,15 +4,17 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { prisma } from "./prisma";
 import bcrypt from "bcryptjs";
+import { Adapter } from "next-auth/adapters";
 
 export const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prisma) as Adapter,
   debug: process.env.NODE_ENV === "development",
   session: {
     strategy: "jwt",
   },
   pages: {
     signIn: "/login",
+    verifyRequest: "/verify-request",
   },
   providers: [
     GoogleProvider({
@@ -66,35 +68,13 @@ export const authOptions: NextAuthOptions = {
       }
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, user }) {
       if (session.user) {
-        session.user.id = token.id as string;
-        session.user.email = token.email as string;
+        session.user.id = user.id;
       }
       return session;
     },
-    async signIn({ user, account, profile }) {
-      if (account?.provider === "google") {
-        if (!user.email) {
-          return false;
-        }
-
-        // Check if user exists
-        const existingUser = await prisma.user.findUnique({
-          where: { email: user.email },
-        });
-
-        if (!existingUser) {
-          // Create new user
-          await prisma.user.create({
-            data: {
-              email: user.email,
-              name: user.name || "User",
-              image: user.image,
-            },
-          });
-        }
-      }
+    async signIn() {
       return true;
     },
     async redirect({ url, baseUrl }) {
