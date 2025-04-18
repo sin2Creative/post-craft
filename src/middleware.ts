@@ -3,31 +3,40 @@ import { NextResponse } from "next/server";
 
 export default withAuth(
   function middleware(req) {
-    // If the user is authenticated and trying to access auth pages, redirect to dashboard
-    if (
+    const isAuthPage =
       req.nextUrl.pathname.startsWith("/login") ||
-      req.nextUrl.pathname.startsWith("/register")
-    ) {
-      if (req.nextauth.token) {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
+      req.nextUrl.pathname.startsWith("/register");
+
+    // If the user is authenticated and trying to access auth pages, redirect to dashboard
+    if (isAuthPage && req.nextauth.token) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
     }
+
     return NextResponse.next();
   },
   {
     callbacks: {
       authorized: ({ token, req }) => {
-        // Public paths that don't require authentication
-        if (
+        const isAuthPage =
           req.nextUrl.pathname.startsWith("/login") ||
-          req.nextUrl.pathname.startsWith("/register") ||
-          req.nextUrl.pathname === "/"
-        ) {
+          req.nextUrl.pathname.startsWith("/register");
+        const isPublicPage =
+          isAuthPage ||
+          req.nextUrl.pathname === "/" ||
+          req.nextUrl.pathname.startsWith("/api/auth");
+
+        // Allow public pages
+        if (isPublicPage) {
           return true;
         }
-        // Protected paths that require authentication
+
+        // Require authentication for all other pages
         return !!token;
       },
+    },
+    pages: {
+      signIn: "/login",
+      error: "/login",
     },
   }
 );
