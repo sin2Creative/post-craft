@@ -23,9 +23,12 @@ export default function LandingPage() {
             <Link href="/login" className="text-gray-300 hover:text-white">
               Sign in
             </Link>
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600">
+            <Link
+              href="/login"
+              className="bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white px-4 py-2 rounded-md"
+            >
               Get started
-            </Button>
+            </Link>
           </div>
         </div>
       </nav>

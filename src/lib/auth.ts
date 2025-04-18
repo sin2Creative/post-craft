@@ -14,6 +14,7 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
+    error: "/login",
     verifyRequest: "/verify-request",
   },
   providers: [
@@ -80,7 +81,7 @@ export const authOptions: NextAuthOptions = {
     async redirect({ url, baseUrl }) {
       if (url.startsWith(baseUrl)) return url;
       if (url.startsWith("/")) return `${baseUrl}${url}`;
-      return baseUrl;
+      return baseUrl + "/dashboard";
     },
   },
 };
